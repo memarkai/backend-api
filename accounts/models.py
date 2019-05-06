@@ -10,9 +10,10 @@ from django.conf import settings
 
 from rest_framework.exceptions import PermissionDenied
 
+from shared.models import UniqueModel
 
-class UserAuth(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+
+class UserAuth(UniqueModel):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
@@ -26,7 +27,6 @@ class UserAuth(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.id = uuid.uuid4()
             self.password = UserAuth.hash_it(self.password)
         super(UserAuth, self).save(*args, **kwargs)
 
@@ -36,7 +36,7 @@ class UserAuth(models.Model):
         if UserAuth.hash_it(password) != user.password:
             raise PermissionDenied('Bad login or password')
         return jwt.encode({
-            'user_id': user.uid,
+            'user_id': user.id,
             'exp': datetime.datetime.now() + datetime.timedelta(hours=12),
         }, key=settings.SECRET_KEY, algorithm='HS256')
 
