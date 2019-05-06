@@ -50,8 +50,7 @@ class UserAuth(UniqueModel):
 class BaseProfile(UserAuth):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=_("Formato inválido"))
 
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, null=True)
-    phone = models.CharField(max_length=10, null=True)
+    phone = models.CharField(validators=[phone_regex], max_length=17, null=True)
     name = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(default=timezone.now)
