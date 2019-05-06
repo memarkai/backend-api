@@ -15,8 +15,8 @@ class Specialty(UniqueModel):
 	name = models.CharField(max_length=64)
 
 	class Meta:
-		verbose_name = _(u'Specialty')
-		verbose_name_plural = _(u'Specialties')
+		verbose_name = _(u'Especialidade')
+		verbose_name_plural = _(u'Especialidades')
 
 	def __str__(self):
 		return self.name

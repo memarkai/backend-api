@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=64)),
             ],
             options={
-                'verbose_name': 'Specialty',
-                'verbose_name_plural': 'Specialties',
+                'verbose_name': 'Especialidade',
+                'verbose_name_plural': 'Especialidades',
             },
         ),
     ]
