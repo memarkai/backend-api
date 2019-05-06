@@ -6,17 +6,18 @@ from api import settings
 from rest_framework.exceptions import PermissionDenied
 import datetime
 import jwt
+import uuid
 # Create your models here.
 
 
 class UserAuth(models.Model):
-    uid = models.UUIDField(primary_key=True)
+    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
     @staticmethod
     def hash_it(msg):
-        digest = hmac.new(settings.SECRET_KEY, msg=msg, digestmod=hashlib.sha256).digest()
+        digest = hmac.new(str(settings.SECRET_KEY).encode(), msg=str(msg).encode(), digestmod=hashlib.sha256).digest()
         return base64.b64encode(digest).decode()
 
     def save(self, *args, **kwargs):
