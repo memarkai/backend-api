@@ -11,7 +11,7 @@ import uuid
 
 
 class UserAuth(models.Model):
-    uid = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, editable=False)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
@@ -22,7 +22,7 @@ class UserAuth(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.uid = uuid.uuid4()
+            self.id = uuid.uuid4()
             self.password = UserAuth.hash_it(self.password)
         super(UserAuth, self).save(*args, **kwargs)
 
