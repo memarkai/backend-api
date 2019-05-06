@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'shared',
     'accounts',
     'clinics',
+    'patients',
 ]
 
 MIDDLEWARE = [
