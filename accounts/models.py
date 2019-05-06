@@ -15,6 +15,9 @@ class UserAuth(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
+    class Meta:
+        abstract = True
+
     @staticmethod
     def hash_it(msg):
         digest = hmac.new(str(settings.SECRET_KEY).encode(), msg=str(msg).encode(), digestmod=hashlib.sha256).digest()
