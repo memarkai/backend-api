@@ -20,3 +20,14 @@ class Specialty(UniqueModel):
 
 	def __str__(self):
 		return self.name
+
+
+class HealthInsurance(UniqueModel):
+	name = models.CharField(max_length=100)
+
+	class Meta:
+		verbose_name = _(u'Plano de saúde')
+		verbose_name_plural = _(u'Planos de saúde')
+
+	def __str__(self):
+		return self.name

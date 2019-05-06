@@ -7,6 +7,9 @@ import uuid
 
 from django.db import models
 from django.conf import settings
+from django.core.validators import RegexValidator
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from rest_framework.exceptions import PermissionDenied
 
@@ -42,3 +45,18 @@ class UserAuth(UniqueModel):
 
     def serialize(self):
         return vars(self)
+
+
+class BaseProfile(UserAuth):
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=_("Formato inválido"))
+
+    phone = models.CharField(validators=[phone_regex], max_length=17, null=True)
+    name = models.CharField(max_length=100, null=True)
+    address = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.name
