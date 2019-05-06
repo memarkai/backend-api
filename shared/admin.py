@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from shared.models import Specialty
+from shared.models import Specialty, HealthInsurance
 
-admin.site.register(Specialty)
+admin.site.register([Specialty, HealthInsurance])
