@@ -8,6 +8,7 @@ import uuid
 from django.db import models
 from django.conf import settings
 from django.core.validators import RegexValidator
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework.exceptions import PermissionDenied
@@ -53,6 +54,7 @@ class BaseProfile(UserAuth):
     phone = models.CharField(max_length=10, null=True)
     name = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         abstract = True
