@@ -1,8 +1,10 @@
-from django.test import TestCase
-from accounts.models import UserAuth
-import uuid
 import random
 import string
+import uuid
+
+from django.test import TestCase
+
+from accounts.models import UserAuth
 
 
 # class UserAuthTests(TestCase):

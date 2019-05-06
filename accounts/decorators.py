@@ -1,7 +1,9 @@
-from django.views.decorators.csrf import csrf_exempt
-from accounts.models import UserAuth
-from api import settings
 import jwt
+
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+
+from accounts.models import UserAuth
 
 
 def token_required(view):

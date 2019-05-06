@@ -1,8 +1,9 @@
+from django.http import JsonResponse
+
 from rest_framework.decorators import api_view
+
 from accounts.decorators import token_required
 from accounts.models import UserAuth
-from django.http import JsonResponse
-# Create your views here.
 
 
 @token_required

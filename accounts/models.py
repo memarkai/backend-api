@@ -1,13 +1,14 @@
-from django.db import models
-import hmac
-import hashlib
 import base64
-from api import settings
-from rest_framework.exceptions import PermissionDenied
 import datetime
+import hashlib
+import hmac
 import jwt
 import uuid
-# Create your models here.
+
+from django.db import models
+from django.conf import settings
+
+from rest_framework.exceptions import PermissionDenied
 
 
 class UserAuth(models.Model):
