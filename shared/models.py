@@ -4,11 +4,13 @@ import hashlib
 import hmac
 import jwt
 import uuid
+
 from django.db import models
 from django.conf import settings
 from django.core.validators import RegexValidator
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
 from rest_framework.exceptions import PermissionDenied
 
 
@@ -34,14 +36,18 @@ class BaseProfile(models.Model):
         digest = hmac.new(str(settings.SECRET_KEY).encode(), msg=str(msg).encode(), digestmod=hashlib.sha256).digest()
         return base64.b64encode(digest).decode()
 
-
-    @staticmethod
-    def authenticate(email, password):
-        user = UserAuth.objects.get(email=email)
-        if UserAuth.hash_it(password) != user.password:
+    @classmethod
+    def authenticate(cls, email, password):
+        try:
+            user = cls.objects.get(email=email)
+        except cls.DoesNotExist:
             raise PermissionDenied('Bad login or password')
+
+        if cls.hash_it(password) != user.password:
+            raise PermissionDenied('Bad login or password')
+
         return jwt.encode({
-            'user_id': user.id,
+            'user_id': user.id.hex,
             'exp': datetime.datetime.now() + datetime.timedelta(hours=12),
         }, key=settings.SECRET_KEY, algorithm='HS256')
 
