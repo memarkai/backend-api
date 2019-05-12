@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-from accounts.models import BaseProfile
+from shared.models import BaseProfile
 
 
 class ClinicSpecialty(models.Model):

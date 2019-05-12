@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'shared',
-    'accounts',
     'clinics',
     'patients',
 ]
