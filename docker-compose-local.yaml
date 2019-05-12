@@ -31,20 +31,6 @@ services:
     networks:
       - markai-net
 
-  api:
-    container_name: markai_api
-    build: .
-    command: python -m envdir env/docker/ python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - postgresdb
-      - elasticsearch
-    networks:
-      - markai-net
-
 networks:
   markai-net:
     driver: bridge
