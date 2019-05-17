@@ -13,7 +13,7 @@ from rest_framework.exceptions import PermissionDenied
 
 
 class BaseProfile(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    id = models.UUIDField(primary_key=True, editable=False)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=200)
 
@@ -34,6 +34,7 @@ class BaseProfile(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.password = BaseProfile.hash_it(self.password)
+            self.id = uuid.uuid4()
         super(UserAuth, self).save(*args, **kwargs)
 
     @staticmethod
