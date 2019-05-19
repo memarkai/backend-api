@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework import permissions
-from shared.decorators import IsClinic, IsTokenAuthenticated, IsOwner
+from shared.decorators import IsClinic, IsPatient, IsTokenAuthenticated
 from .models import ClinicUser, ClinicUserSerializer, Doctor, DoctorSerializer
 from shared.models import HealthInsurance, Specialty
 from django.http import HttpResponse, JsonResponse
@@ -64,11 +64,11 @@ def create_doctor(request):
     )
     return HttpResponse(status=status.HTTP_200_OK)
 
-
 @api_view(['GET'])
-@permission_classes((IsTokenAuthenticated & IsClinic, ))
-def list_doctors(request):
-    doctors_list = Doctor.objects.filter(clinic=request.user.clinic)
+@permission_classes((IsTokenAuthenticated, IsClinic | IsPatient ))
+def list_doctors(request, clinic_id = None):
+    clinic = get_object_or_404(ClinicUser, id=clinic_id) if clinic_id else request.user.clinic
+    doctors_list = clinic.list_doctors()
     paginator = Paginator(doctors_list, 20)
     page = request.GET.get('page')
     doctors = paginator.get_page(page)

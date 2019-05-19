@@ -38,6 +38,10 @@ class ClinicUser(BaseProfile):
 		verbose_name = _(u'Clínica')
 		verbose_name_plural = _(u'Clínicas')
 
+	def list_doctors(self):
+		doctors_list = Doctor.objects.filter(clinic=self.id)
+		return doctors_list
+
 class ClinicUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClinicUser

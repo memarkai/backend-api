@@ -32,7 +32,7 @@ def login(request):
 
 @api_view(['POST'])
 @permission_classes((IsTokenAuthenticated & permissions.IsAdminUser, ))
-def create_specialty(request, objtype):
+def create_specialty(request):
     Specialty.objects.create(name=request.data['name'])
     return HttpResponse(status=status.HTTP_200_OK)
 
