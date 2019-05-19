@@ -23,6 +23,8 @@ class BaseProfile(models.Model):
     name = models.CharField(max_length=100, null=True)
     address = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(default=timezone.now)
+    image = models.FileField(upload_to='images/', null=True, verbose_name="")
+
 
     is_staff = models.BooleanField(default=False)
 
