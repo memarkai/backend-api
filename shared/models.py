@@ -10,6 +10,7 @@ from django.core.validators import RegexValidator
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import PermissionDenied
+from rest_framework import serializers
 
 
 class BaseProfile(models.Model):
@@ -23,8 +24,7 @@ class BaseProfile(models.Model):
     address = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(default=timezone.now)
 
-    class Meta:
-        abstract = True
+    is_staff = models.BooleanField(default=False)
 
     @staticmethod
     def hash_it(msg):
@@ -35,23 +35,20 @@ class BaseProfile(models.Model):
         if not self.pk:
             self.password = BaseProfile.hash_it(self.password)
             self.id = uuid.uuid4()
-        super(UserAuth, self).save(*args, **kwargs)
+        super(BaseProfile, self).save(*args, **kwargs)
 
-    @staticmethod
-    def authenticate(email, password):
-        user = UserAuth.objects.get(email=email)
-        if UserAuth.hash_it(password) != user.password:
+    @classmethod
+    def authenticate(cls, email, password):
+        user = cls.objects.get(email=email)
+        if cls.hash_it(password) != user.password:
             raise PermissionDenied('Bad login or password')
         return jwt.encode({
-            'user_id': user.id,
-            'exp': datetime.datetime.now() + datetime.timedelta(hours=12),
+            'user_id': str(user.id),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=12),
         }, key=settings.SECRET_KEY, algorithm='HS256')
 
-    def serialize(self):
-        return vars(self)
-
     def __str__(self):
-        return self.name
+        return self.email
 
 class Specialty(models.Model):
 	id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
@@ -64,6 +61,11 @@ class Specialty(models.Model):
 	def __str__(self):
 		return self.name
 
+class SpecialtySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Specialty
+        fields = '__all__'
+
 
 class HealthInsurance(models.Model):
 	id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
@@ -75,3 +77,8 @@ class HealthInsurance(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class HealthInsuranceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthInsurance
+        fields = '__all__'

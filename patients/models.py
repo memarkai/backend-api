@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
+from rest_framework import serializers
 from shared.models import BaseProfile
 
 
@@ -11,3 +11,8 @@ class PatientUser(BaseProfile):
 	class Meta:
 		verbose_name = _(u'Paciente')
 		verbose_name_plural = _(u'Pacientes')
+
+class PatientUserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = PatientUser
+		exclude = ('password', )
