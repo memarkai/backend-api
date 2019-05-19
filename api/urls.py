@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/clinics/', include('clinics.urls')),
-    path('api/patients/', include('patients.urls')),
+    path('api/', include('shared.urls')),
+    path('api/clinics/', include('clinics.urls', namespace='clinics')),
+    path('api/patients/', include('patients.urls', namespace='patients')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
-

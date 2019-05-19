@@ -7,4 +7,4 @@ from clinics.models import ClinicUser
 class ClinicUserAdmin(admin.ModelAdmin):
 	exclude = ('password', )
 	readonly_fields = ('created_at', )
-	filter_horizontal = ('doctors', 'plans')
+	filter_horizontal = ('plans', )
