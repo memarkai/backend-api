@@ -8,7 +8,7 @@ import uuid
 class Doctor(models.Model):
 	crm_validator = RegexValidator(regex=r'^\d+?\/\w{2}$', message=_('Formato inválido'))
 	
-	uuid = models.UUIDField(primary_key=True, default=uuid.uuid4())
+	id = models.UUIDField(primary_key=True, default=uuid.uuid4())
 	name = models.CharField(max_length=200)
 	crm = models.CharField(max_length=12, validators=[crm_validator])
 	speciality = models.ForeignKey('shared.Specialty', on_delete=models.CASCADE)
