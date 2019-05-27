@@ -55,11 +55,11 @@ def list_clinics(request):
 @api_view(['POST'])
 @permission_classes((IsTokenAuthenticated & IsClinic, ))
 def create_doctor(request):
-    speciality = get_object_or_404(Specialty, id=request.data['specialityId'])
+    specialty = get_object_or_404(Specialty, id=request.data['specialtyId'])
     Doctor.objects.create(
         crm=request.data['crm'],
         name=request.data['name'],
-        speciality=speciality,
+        specialty=specialty,
         clinic=request.user.clinic,
     )
     return HttpResponse(status=status.HTTP_200_OK)
