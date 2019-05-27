@@ -66,7 +66,7 @@ def create_doctor(request):
 
 @api_view(['GET'])
 @permission_classes((IsTokenAuthenticated, IsClinic | IsPatient ))
-def list_doctors(request, clinic_id = None):
+def list_doctors(request, clinic_id=None):
     clinic = get_object_or_404(ClinicUser, id=clinic_id) if clinic_id else request.user.clinic
     doctors_list = clinic.list_doctors()
     paginator = Paginator(doctors_list, 20)
