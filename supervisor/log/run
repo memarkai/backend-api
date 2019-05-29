@@ -1,0 +1,5 @@
+#!/bin/sh
+
+umask 0027
+exec setuidgid markai multilog t s10485760 ./main
+

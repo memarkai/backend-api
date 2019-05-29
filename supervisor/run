@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /home/markai/backend-api
+exec setuidgid markai envdir env/local/ python3 manage.py runserver 0.0.0.0:8000 --insecure  2>&1
+
