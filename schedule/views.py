@@ -8,6 +8,7 @@ from patients.models import PatientUser
 from .models import Consultation, ConsultationSerializer
 from schedule import search
 from django.core.paginator import Paginator
+from schedule import search
 import datetime
 # Create your views here.
 
@@ -47,27 +48,9 @@ def accept_candidate(request):
     return HttpResponse(status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-@permission_classes((IsTokenAuthenticated & IsClinic, ))
-def list_clinic_consultations(request):
-    consultations_list = request.user.consultation_set.all()
-    paginator = Paginator(consultations_list, 20)
-    page = request.get.GET('page')
-    consultations = paginator.get_page(page)
-    page_json = ConsultationSerializer(consultations, many=True)
-    return JsonResponse(
-        page_json,
-        safe=False,
-        status=status.HTTP_200_OK
-    )
-
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsTokenAuthenticated, ))
-def list_consultations_between_dates(request):
-    start_date = request.get.GET('start_date')
-    end_date = request.get.GET('end_date')
-    page = request.get.GET('page')
-    hits = search.consultations_between_two_dates(start_date, end_date, page)
-    return JsonResponse(hits, status=status.HTTP_200_OK)
-
-
+def search_consultation(request):
+    page = request.query_params.get('page', 0)
+    hits = search.search_consultation(request.data, page)
+    return hits
