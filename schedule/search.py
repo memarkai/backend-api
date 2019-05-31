@@ -1,5 +1,5 @@
 from elasticsearch_dsl.connections import connections
-from elasticsearch_dsl import Document, Text, , Keyword, Date, GeoPoint, Search, Q
+from elasticsearch_dsl import Document, Text, Keyword, Date, GeoPoint, Search, Q
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 from . import models
