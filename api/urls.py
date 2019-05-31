@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/', include('shared.urls')),
     path('api/clinics/', include('clinics.urls', namespace='clinics')),
     path('api/patients/', include('patients.urls', namespace='patients')),
+    path('api/schedule/', include('schedule.urls', namespace='schedule'))
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

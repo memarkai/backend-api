@@ -5,3 +5,4 @@ psycopg2==2.8.2
 PyJWT==1.7.1
 pytz==2019.1
 sqlparse==0.3.0
+elasticsearch_dsl
