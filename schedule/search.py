@@ -14,8 +14,8 @@ class ConsultationIndex(Document):
     specialty = Keyword()
     patient = Keyword()
     candidates = Text()
-    start_date = Date()
-    end_date = Date()
+    startDate = Date()
+    endDate = Date()
 
     class Index:
         name = 'consultations-index'
@@ -29,8 +29,9 @@ def bulk_indexing():
 def __executor__(search, page_from=None, page_size=20):
     page_from = page_from if page_from else 0
     page_size = page_size if page_size else 20
-    return search.execute()
+    return search[page_from:page_from + page_size].execute().to_dict()
 
 def search_consultation(query_dict, page_from=0):
-    s = Q(**query_dict)
+    query_type = list(query_dict.keys())[0]
+    s = ConsultationIndex.search().query(query_type, **query_dict[query_type])
     return __executor__(s, page_from)
