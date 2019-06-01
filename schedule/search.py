@@ -29,7 +29,7 @@ def bulk_indexing():
 def __executor__(search, page_from=None, page_size=20):
     page_from = page_from if page_from else 0
     page_size = page_size if page_size else 20
-    return search[page_from:page_from + page_size].execute()
+    return search.execute()
 
 def search_consultation(query_dict, page_from=0):
     s = Q(**query_dict)
