@@ -17,7 +17,7 @@ import datetime
 def create_consultation(request):
     doctor = get_object_or_404(Doctor, id=request.data['doctor'])
     Consultation.objects.create(
-        clinic=request.user,
+        clinic=request.user.clinic,
         doctor=doctor,
         start_date=datetime.datetime.strptime(
             request.data['startDate'], '%d/%m/%Y %H:%M:%S'
