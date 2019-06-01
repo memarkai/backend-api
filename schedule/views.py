@@ -20,7 +20,7 @@ def create_consultation(request):
         clinic=request.user,
         doctor=doctor,
         start_date=datetime.datetime.strptime(
-            request.data['startDate'], '%d/%m/%Y %H:%M:S'
+            request.data['startDate'], '%d/%m/%Y %H:%M:%S'
         ),
         end_date=datetime.datetime.strptime(
             request.data['endDate'], '%d/%m/%Y %H:%M:%S'
