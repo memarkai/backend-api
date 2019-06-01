@@ -39,11 +39,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'shared',
     'clinics',
     'patients',
     'schedule',
 ]
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'crossDomain'
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
