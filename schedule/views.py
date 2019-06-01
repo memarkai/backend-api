@@ -32,7 +32,7 @@ def create_consultation(request):
 @permission_classes((IsTokenAuthenticated & IsPatient, ))
 def candidate_for_consultation(request):
     consultation = get_object_or_404(Consultation, id=request.data['consultation'])
-    consultation.candidates.add(request.user)
+    consultation.candidates.add(request.user.patient)
     consultation.save()
     return HttpResponse(status=status.HTTP_200_OK)
 
