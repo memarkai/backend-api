@@ -8,6 +8,9 @@ from .search import ConsultationIndex
 import datetime
 import uuid
 
+# TODO: Validação de candidatura de paciente
+# TODO: Validação de criação de duas consulta no mesmo horário para médicos iguais
+
 def at_least_now(dt):
     if datetime.datetime.now() > dt:
         raise ValidationError(_(u'Não é possível agendar algo para o passado.'))
@@ -20,6 +23,13 @@ class Consultation(models.Model):
     candidates = models.ManyToManyField(to=PatientUser, related_name='candidates', null=True)
     start_date = models.DateTimeField(validators=[at_least_now])
     end_date = models.DateTimeField(validators=[at_least_now])
+
+    def accept_or_remove_candidate(self, patient_id, accept=True):
+        candidate = self.candidates.get(id=patient_id)
+        if accept:
+            self.patient = candidate
+        self.candidates.remove(candidate)
+        self.save()
 
     def save(self, *args, **kwargs):
         if self.start_date > self.end_date:
@@ -39,10 +49,10 @@ class Consultation(models.Model):
             specialty=self.doctor.specialty.id,
             patient=self.patient.id if self.patient else None,
             candidates=[c.id for c in self.candidates.all()],
-            start_date=self.start_date,
-            end_date=self.end_date,
+            startDate=self.start_date,
+            endDate=self.end_date,
         )
-        obj.save(index='consultation-index')
+        obj.save(index=ConsultationIndex.Index.name)
         return obj.to_dict(include_meta=True)
 
 
