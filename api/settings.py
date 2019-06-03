@@ -24,7 +24,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG']
+DEBUG = bool(os.environ['DEBUG'])
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'ec2-3-16-1-205.us-east-2.compute.amazonaws.com']
 
@@ -59,7 +59,10 @@ CORS_ALLOW_HEADERS = (
     'crossDomain'
 )
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
