@@ -10,4 +10,5 @@ urlpatterns = [
     path('consultation/candidate/accept/<uuid:consultation_id>/', views.accept_candidate),
     path('consultation/candidate/refuse/<uuid:consultation_id>/', views.refuse_candidate),
     path('consultation/search/', views.search_consultation),
+    path('consultation/search/clinic/open/', views.list_my_open_consultations),
 ]
