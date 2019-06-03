@@ -16,7 +16,7 @@ class ConsultationIndex(Document):
     candidates = Text()
     startDate = Date()
     endDate = Date()
-
+    
     class Index:
         name = 'consultations-index'
 
