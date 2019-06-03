@@ -47,6 +47,16 @@ def list_consultation_candidates(request, consultation_id):
     page_json = PatientUserSerializer(candidates, many=True)
     return JsonResponse(page_json.data, safe=False, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+@permission_classes((IsTokenAuthenticated, IsClinic))
+def list_my_open_consultations(request):
+    clinic_id = request.user.clinic.id
+    page = request.GET.get('page')
+    search_resp = search.open_consultations(clinic_id, page_from=page)
+    hits = search_resp['hits']['hits']
+    return JsonResponse(hits, safe=False, status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 @permission_classes((IsTokenAuthenticated, IsClinic))
 def accept_candidate(request, consultation_id):
