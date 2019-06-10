@@ -1,7 +1,9 @@
 from elasticsearch_dsl.connections import connections
 from elasticsearch_dsl import Document, Text, Keyword, Date, GeoPoint, Search, Q
 from elasticsearch import Elasticsearch
+from rest_framework.exceptions import ValidationError
 from elasticsearch.helpers import bulk
+from django.utils.translation import ugettext_lazy as _
 from . import models
 
 connections.create_connection()
@@ -31,9 +33,16 @@ def __executor__(search, page_from=None, page_size=20):
     page_size = page_size if page_size else 20
     return search[page_from:page_from + page_size].execute().to_dict()
 
-
-def open_consultations(clinic_id, page_from=0):
-    s = ConsultationIndex.search().query('bool', must=[Q('match', clinic=clinic_id)], filter=[Q('missing', field='patient')])
+def list_consultations(clinic_id, scope, page_from=0):
+    s = ConsultationIndex.search()
+    if scope == 'all':
+        s = s.query('bool', must=[Q('match', clinic=clinic_id)])
+    elif scope == 'open':
+        s = s.query('bool', must=[Q('match', clinic=clinic_id)], filter=[Q('missing', field='patient')])
+    elif scope == 'closed':
+        s = s.query('bool', must=[Q('match', clinic=clinic_id)], filter=[Q('exists', field='patient')])
+    else:
+        raise ValidationError(_('Invalid scope'))
     return __executor__(s, page_from)
 
 def search_consultation(query_dict, page_from=0):
