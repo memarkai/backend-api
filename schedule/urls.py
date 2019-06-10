@@ -10,5 +10,5 @@ urlpatterns = [
     path('consultation/candidate/accept/<uuid:consultation_id>/', views.accept_candidate),
     path('consultation/candidate/refuse/<uuid:consultation_id>/', views.refuse_candidate),
     path('consultation/search/', views.search_consultation),
-    re_path('consultation/search/(?P<scope>all|open|closed)$/', views.list_my_consultations),
+    re_path('consultation/search/(?P<scope>all|open|closed)?/', views.list_my_consultations),
 ]
