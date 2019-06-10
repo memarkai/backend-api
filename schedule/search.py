@@ -38,7 +38,7 @@ def list_consultations(clinic_id, scope, page_from=0):
     if scope == 'all':
         s = s.query('bool', must=[Q('match', clinic=clinic_id)])
     elif scope == 'open':
-        s = s.query('bool', must=[Q('match', clinic=clinic_id)], filter=[Q('missing', field='patient')])
+        s = s.query('bool', must=[Q('match', clinic=clinic_id)], filter=[~Q('exists', field='patient')])
     elif scope == 'closed':
         s = s.query('bool', must=[Q('match', clinic=clinic_id)], filter=[Q('exists', field='patient')])
     else:
