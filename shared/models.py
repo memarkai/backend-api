@@ -46,7 +46,6 @@ class BaseProfile(models.Model):
             raise PermissionDenied('Bad login or password')
         return jwt.encode({
             'user_id': str(user.id),
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=12),
         }, key=settings.SECRET_KEY, algorithm='HS256')
 
     def __str__(self):
