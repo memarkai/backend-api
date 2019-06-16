@@ -78,3 +78,11 @@ def list_doctors(request, clinic_id=None):
         safe=False,
         status=status.HTTP_200_OK
     )
+
+
+@api_view(['GET'])
+@permission_classes((IsTokenAuthenticated, ))
+def get_doctor(request, doctor_id):
+    doctor = get_object_or_404(Doctor, id=doctor_id)
+    doctor_json = DoctorSerializer(doctor)
+    return JsonResponse(doctor_json.data, safe=False, status=status.HTTP_200_OK)

@@ -10,5 +10,6 @@ urlpatterns = [
     path('list/', views.list_clinics),
     path('doctor/create/', views.create_doctor),
     path('doctor/list/', views.list_doctors),
+    path('doctor/get/<uuid:doctor_id>/', views.get_doctor),
     path('doctor/list/<uuid:clinic_id>/', views.list_doctors),
 ]
