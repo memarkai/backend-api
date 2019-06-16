@@ -30,7 +30,8 @@ def update_patient(request):
 @permission_classes((IsTokenAuthenticated, ))
 def get_patient(request, patient_id):
     patient = get_object_or_404(PatientUser, id=patient_id)
-    return JsonResponse(patient.serialize(), status=status.HTTP_200_OK)
+    patient_json = PatientUserSerializer(patient)
+    return JsonResponse(patient_json.data, safe=False, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes((IsTokenAuthenticated & permissions.IsAdminUser, ))
