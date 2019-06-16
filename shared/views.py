@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework import permissions
@@ -57,6 +57,13 @@ def list_specialties(request):
         safe=False,
         status=status.HTTP_200_OK
     )
+
+@api_view(['GET'])
+@permission_classes((IsTokenAuthenticated, ))
+def get_specialty(request, specialty_id):
+    specialty = get_object_or_404(Specialty, id=specialty_id)
+    specialty_json = SpecialtySerializer(specialty)
+    return JsonResponse(specialty_json.data, safe=False, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
