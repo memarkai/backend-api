@@ -89,4 +89,5 @@ def list_doctor_schedule(request, doctor_id):
     end_date = datetime.datetime.strptime(end_date, '%d/%m/%Y')
     search_resp = search.list_doctor_schedule(doctor_id, start_date, end_date)
     hits = search_resp['hits']['hits']
-    return JsonResponse(hits, safe=False, status=status.HTTP_200_OK)
+    response = [dict(consultation=h['_index'], **h['_source']) for h in hits]
+    return JsonResponse(response, safe=False, status=status.HTTP_200_OK)
