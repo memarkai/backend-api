@@ -22,7 +22,7 @@ def update_patient(request):
         name=request.data.get('name', patient.name),
         address=request.data.get('address', patient.address),
         search_radius=request.data.get('search_radius', patient.search_radius),
-        image=request.FILES.get('image', patient.image),
+        image=request.data.get('image', patient.image),
         insurance=insurance,
     )
     return HttpResponse(status=status.HTTP_200_OK)
