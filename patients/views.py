@@ -7,6 +7,7 @@ from shared.models import HealthInsurance, BaseProfile
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
+from django.core.files.storage import FileSystemStorage
 from rest_framework import status
 # Create your views here.
 
@@ -17,11 +18,18 @@ def update_patient(request):
     insurance = user.patient.insurance
     if request.data.get('insurance'):
         insurance = HealthInsurance.objects.get(id=request.data['insurance'])
+    if request.data.get('image'):
+        image = request.FILES['image']
+        fs = FileSystemStorage(location='images/')
+        filename = fs.save(image.name, image)
+        file_path = fs.url
+    else:
+        file_path=None
     BaseProfile.objects.filter(id = user.id).update(
         phone=request.data.get('phone', user.phone),
         name=request.data.get('name', user.name),
         address=request.data.get('address', user.address),
-        image=request.data.get('image', user.image),
+        image=file_path
     )
     PatientUser.objects.filter(id = user.patient.id).update(
         search_radius=request.data.get('search_radius', user.patient.search_radius),        
