@@ -83,8 +83,8 @@ def search_consultation(request):
 @api_view(['GET'])
 @permission_classes((IsTokenAuthenticated, ))
 def list_doctor_schedule(request, doctor_id):
-    start_date = request.GET['start_date']
-    end_date = request.GET['end_date']
+    start_date = request.GET['startDate']
+    end_date = request.GET['endDate']
     start_date = datetime.datetime.strptime(start_date, '%d/%m/%Y')
     end_date = datetime.datetime.strptime(end_date, '%d/%m/%Y')
     search_resp = search.list_doctor_schedule(doctor_id, start_date, end_date)
