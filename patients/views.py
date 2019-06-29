@@ -25,6 +25,7 @@ def update_patient(request):
         file_path = fs.url
     else:
         file_path=None
+    print(file_path)
     BaseProfile.objects.filter(id = user.id).update(
         phone=request.data.get('phone', user.phone),
         name=request.data.get('name', user.name),
