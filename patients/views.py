@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
 from .models import PatientUser, PatientUserSerializer
 from shared.decorators import IsPatient, IsTokenAuthenticated
-from shared.models import HealthInsurance
+from shared.models import HealthInsurance, BaseProfile
 from django.http import HttpResponse, JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -13,16 +13,18 @@ from rest_framework import status
 @api_view(['POST'])
 @permission_classes((IsTokenAuthenticated & IsPatient, ))
 def update_patient(request):
-    patient = request.user.patient
-    insurance = patient.insurance
+    user = request.user
+    insurance = user.patient.insurance
     if request.data.get('insurance'):
-        insurance = request.data['insurance']
-    PatientUser.objects.filter(id = patient.id).update(
-        phone=request.data.get('phone', patient.phone),
-        name=request.data.get('name', patient.name),
-        address=request.data.get('address', patient.address),
-        search_radius=request.data.get('search_radius', patient.search_radius),
-        image=request.data.get('image', patient.image),
+        insurance = HealthInsurance.objects.get(id=request.data['insurance'])
+    BaseProfile.objects.filter(id = user.id).update(
+        phone=request.data.get('phone', user.phone),
+        name=request.data.get('name', user.name),
+        address=request.data.get('address', user.address),
+        image=request.data.get('image', user.image),
+    )
+    PatientUser.objects.filter(id = user.patient.id).update(
+        search_radius=request.data.get('search_radius', user.patient.search_radius),        
         insurance=insurance,
     )
     return HttpResponse(status=status.HTTP_200_OK)
