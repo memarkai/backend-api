@@ -22,7 +22,7 @@ def update_patient(request):
         image = request.FILES['image']
         fs = FileSystemStorage(location='images/')
         filename = fs.save(image.name, image)
-        file_path = fs.url
+        file_path = fs.url()
     else:
         file_path=None
     print(file_path)
