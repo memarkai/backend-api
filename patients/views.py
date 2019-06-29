@@ -17,7 +17,7 @@ def update_patient(request):
     insurance = patient.insurance
     if request.data.get('insurance'):
         insurance = request.data['insurance']
-    patient.update(
+    PatientUser.objects.filter(id = patient.id).update(
         phone=request.data.get('phone', patient.phone),
         name=request.data.get('name', patient.name),
         address=request.data.get('address', patient.address),
