@@ -31,14 +31,14 @@ def login(request):
 
 
 @api_view(['POST'])
-@permission_classes((IsTokenAuthenticatedUser, ))
+@permission_classes((IsTokenAuthenticated, ))
 def create_specialty(request):
     Specialty.objects.create(name=request.data['name'])
     return HttpResponse(status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
-@permission_classes((IsTokenAuthenticatedUser, ))
+@permission_classes((IsTokenAuthenticated, ))
 def create_health_insurance(request):
     HealthInsurance.objects.create(name=request.data['name'])
     return HttpResponse(status=status.HTTP_200_OK)
