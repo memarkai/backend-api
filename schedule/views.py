@@ -47,7 +47,7 @@ def candidate_for_consultation(request, consultation_id):
 @api_view(['POST'])
 @permission_classes((IsTokenAuthenticated, IsPatient, ))
 def revoke_candidature_for_consultation(request, consultation_id):
-    consultation = get_object_or_404(consultation_id, id=consultation_id)
+    consultation = get_object_or_404(Consultation, id=consultation_id)
     if request.user.patitent in consultation.candidates.al():
         consultation.candidates.remove(request.user.patient)
     elif consultation.patient == request.user.patient:
