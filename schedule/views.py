@@ -119,4 +119,4 @@ def list_clinic_candidates(request, clinic_id):
     all_consultations = search.list_all_candidates_for_clinic(clinic_id)
     hits = all_consultations['hits']['hits']
     candidates_ids = [cid for cid in h['_source']['candidates'] for h in hits]
-    return JsonResponse(hits, safe=False, status=status.HTTP_200_OK)
+    return JsonResponse(candidates_ids, safe=False, status=status.HTTP_200_OK)
