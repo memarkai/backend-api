@@ -39,7 +39,7 @@ def update_clinic(request):
     return HttpResponse(status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-@permission_classes((IsTokenAuthenticated & permissions.IsAdminUser, ))
+@permission_classes((IsTokenAuthenticatedUser, ))
 def list_clinics(request):
     clinics_list = ClinicUser.objects.all()
     paginator = Paginator(clinics_list, 20)
