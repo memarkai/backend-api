@@ -29,6 +29,13 @@ def create_consultation(request):
     return HttpResponse(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes((IsTokenAuthenticated, IsClinic, ))
+def delete_consultation(request, consultation_id):
+    consultation = get_object_or_404(Consultation, id=consultation_id)
+    consultation.delete()
+    return HttpResponse(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
 @permission_classes((IsTokenAuthenticated, IsPatient, ))
 def candidate_for_consultation(request, consultation_id):
     consultation = get_object_or_404(Consultation, id=consultation_id)
@@ -36,6 +43,13 @@ def candidate_for_consultation(request, consultation_id):
     consultation.save()
     return HttpResponse(status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes((IsTokenAuthenticated, IsPatient, ))
+def revoke_candidature_for_consultation(request, consultation_id):
+    consultation = get_object_or_404(consultation_id, id=consultation_id)
+    consultation.candidates.remove(request.user.patient)
+    consultation.save()
+    return HttpResponse(status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes((IsTokenAuthenticated, IsClinic))

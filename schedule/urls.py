@@ -5,7 +5,9 @@ app_name = 'schedule'
 
 urlpatterns = [
     path('consultation/create/', views.create_consultation),
+    path('consultation/delete/<uuid:consultation_id>/', views.delete_consultation),
     path('consultation/candidate/<uuid:consultation_id>/', views.candidate_for_consultation),
+    path('consultation/candidate/revoke/<uuid:consultation_id>/', views.revoke_candidature_for_consultation),
     path('consultation/candidate/list/<uuid:consultation_id>/', views.list_consultation_candidates),
     path('consultation/doctor/list/<uuid:doctor_id>/', views.list_doctor_schedule),
     path('consultation/candidate/accept/<uuid:consultation_id>/', views.accept_candidate),
