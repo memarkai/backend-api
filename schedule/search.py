@@ -44,14 +44,6 @@ def list_consultations(clinic_id, scope, page_from=0):
         raise ValidationError(_('Invalid scope'))
     return __executor__(s, page_from)
 
-
-def list_all_candidates_for_clinic(clinic_id):
-    s = ConsultationIndex.search()
-    s = s.source(['_source.candidates, _id'])
-    s = s.query('bool', must=[Q('match', clinic=clinic_id)])
-    return __executor__(s, 0)
-
-
 def list_doctor_schedule(doctor_id, start_date, end_date):
     s = ConsultationIndex.search()
     s = s.query('bool', must=[Q('range', startDate={'gte': start_date}), Q('range', endDate={'lte': end_date}), Q('match', doctor=doctor_id)])

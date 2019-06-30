@@ -116,6 +116,8 @@ def list_doctor_schedule(request, doctor_id):
 @api_view(['GET'])
 @permission_classes((IsTokenAuthenticated, ))
 def list_clinic_candidates(request, clinic_id):
-    search_resp = search.list_all_candidates_for_clinic(clinic_id)
-    hits = search_resp['hits']['hits']
+    all_consultations = search.list_consultations(clinic_id, 'all')
+    hits = all_consultations['hits']['hits']
+    # response = dict()
+    # for 
     return JsonResponse(hits, safe=False, status=status.HTTP_200_OK)
