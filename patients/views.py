@@ -46,7 +46,7 @@ def get_patient(request, patient_id):
     return JsonResponse(patient_json.data, safe=False, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-@permission_classes((IsTokenAuthenticated & permissions.IsAdminUser, ))
+@permission_classes((IsTokenAuthenticated, ))
 def list_patients(request):
     patients_list = PatientUser.objects.all()
     paginator = Paginator(patients_list, 20)
