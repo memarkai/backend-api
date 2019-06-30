@@ -120,6 +120,5 @@ def list_clinic_candidates(request, clinic_id):
     hits = all_consultations['hits']['hits']
     candidates_ids = []
     for h in hits:
-        print(h)
         candidates_ids.extend([cid for cid in h['_source']['candidates']])
     return JsonResponse(candidates_ids, safe=False, status=status.HTTP_200_OK)
