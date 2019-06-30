@@ -120,7 +120,6 @@ def list_clinic_candidates(request, clinic_id):
     hits = all_consultations['hits']['hits']
     candidates = []
     for h in hits:
-        print(h)
         for cid in h['_source']['candidates']:
             candidate = PatientUser.objects.get(id=cid)
             candidate_json = PatientUserSerializer(candidate).data
