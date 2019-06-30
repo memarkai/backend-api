@@ -47,7 +47,7 @@ def list_consultations(clinic_id, scope, page_from=0):
 
 def list_all_candidates_for_clinic(clinic_id):
     s = ConsultationIndex.search()
-    s = s.source(['candidates, _id'])
+    s = s.source(['_source.candidates, _id'])
     s = s.query('bool', must=[Q('match', clinic=clinic_id)])
     return __executor__(s, 0)
 
