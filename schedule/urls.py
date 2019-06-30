@@ -9,6 +9,7 @@ urlpatterns = [
     path('consultation/candidate/<uuid:consultation_id>/', views.candidate_for_consultation),
     path('consultation/candidate/revoke/<uuid:consultation_id>/', views.revoke_candidature_for_consultation),
     path('consultation/candidate/list/<uuid:consultation_id>/', views.list_consultation_candidates),
+    path('consultation/candidate/clinic/list/<uuid:clinic_id>/', views.list_clinic_candidates),
     path('consultation/doctor/list/<uuid:doctor_id>/', views.list_doctor_schedule),
     path('consultation/candidate/accept/<uuid:consultation_id>/', views.accept_candidate),
     path('consultation/candidate/refuse/<uuid:consultation_id>/', views.refuse_candidate),
