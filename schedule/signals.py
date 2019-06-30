@@ -8,4 +8,4 @@ def index_consultation(sender, instance, **kwargs):
 
 @receiver(pre_delete, sender=Consultation)
 def delete_consultation(sender, instance, **kwargs):
-    instance.delete()
+    instance.delete_from_es()

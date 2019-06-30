@@ -4,7 +4,7 @@ from patients.models import PatientUser
 from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from django.utils.translation import ugettext_lazy as _
-from .search import ConsultationIndex
+from . import search
 import datetime
 import uuid
 
@@ -41,7 +41,7 @@ class Consultation(models.Model):
         super(Consultation, self).save(*args, **kwargs)
 
     def indexing(self):
-        obj = ConsultationIndex(
+        obj = search.ConsultationIndex(
             meta={'id': self.id},
             clinic=self.clinic.id,
             clinic_location=[self.clinic.longitude, self.clinic.latitude],
@@ -52,8 +52,11 @@ class Consultation(models.Model):
             startDate=self.start_date,
             endDate=self.end_date,
         )
-        obj.save(index=ConsultationIndex.Index.name)
+        obj.save(index=search.ConsultationIndex.Index.name)
         return obj.to_dict(include_meta=True)
+
+    def delete_from_es(self):
+        return search.delete_consultation(self.id)
 
 
 class ConsultationSerializer(serializers.BaseSerializer):

@@ -54,3 +54,7 @@ def search_consultation(query_dict, page_from=0):
     query_type = list(query_dict.keys())[0]
     s = ConsultationIndex.search().query(query_type, **query_dict[query_type])
     return __executor__(s, page_from)
+
+def delete_consultation(consultation_id):
+    s = ConsultationIndex.search().query('match', _id=consultation_id)
+    return s.delete()
