@@ -118,4 +118,4 @@ def list_doctor_schedule(request, doctor_id):
 def list_clinic_candidates(request, clinic_id):
     search_resp = search.list_all_candidates_for_clinic(clinic_id)
     hits = search_resp['hits']['hits']
-    return JsonResponse(hits)
+    return JsonResponse(hits, safe=False, status=status.HTTP_200_OK)
