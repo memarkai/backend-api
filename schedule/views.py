@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import NotFound
 from rest_framework import status
 from django.http import HttpResponse, JsonResponse
 from shared.decorators import IsTokenAuthenticated, IsClinic, IsPatient
@@ -38,7 +39,7 @@ def delete_consultation(request, consultation_id):
 @api_view(['POST'])
 @permission_classes((IsTokenAuthenticated, IsPatient, ))
 def candidate_for_consultation(request, consultation_id):
-    consultation = get_object_or_404(Consultation, id=consultation_id)
+    consultation = get_object_or_404(Consultation, id=consultation_id)        
     consultation.candidates.add(request.user.patient)
     consultation.save()
     return HttpResponse(status=status.HTTP_200_OK)
@@ -47,7 +48,12 @@ def candidate_for_consultation(request, consultation_id):
 @permission_classes((IsTokenAuthenticated, IsPatient, ))
 def revoke_candidature_for_consultation(request, consultation_id):
     consultation = get_object_or_404(consultation_id, id=consultation_id)
-    consultation.candidates.remove(request.user.patient)
+    if request.user.patitent in consultation.candidates.al():
+        consultation.candidates.remove(request.user.patient)
+    elif consultation.patient == request.user.patient:
+        consultation.patient = None
+    else:
+        raise NotFound('Patient is not a candidate for this consultation')
     consultation.save()
     return HttpResponse(status=status.HTTP_200_OK)
 
