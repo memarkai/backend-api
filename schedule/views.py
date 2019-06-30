@@ -126,3 +126,17 @@ def list_clinic_candidates(request, clinic_id):
             candidate_json['consultation'] = h['_id']
             candidates.append(candidate_json)
     return JsonResponse(candidates, safe=False, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsTokenAuthenticated, ))
+def list_clinic_confirmations(request, clinic_id):
+    confirmed_consultations = search.list_consultations(clinic_id, 'closed')
+    hits = confirmed_consultations['hits']['hits']
+    patients = []
+    for h in hits:
+        patient  = PatientUser.object.get(id=h['_source']['patient'])
+        patient_json = PatientUserSerializer(patient).data
+        patient_json['consultation'] = h['_id']
+        patients.append(patient_json)
+    return JsonResponse(patients, safe=False, status=status.HTTP_200_OK)
