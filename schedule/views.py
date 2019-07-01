@@ -120,10 +120,14 @@ def list_clinic_candidates(request, clinic_id):
     hits = all_consultations['hits']['hits']
     candidates = []
     for h in hits:
+        consultation = Consultation.objects.get(id=h['_id'])
         for cid in h['_source']['candidates']:
             candidate = PatientUser.objects.get(id=cid)
             candidate_json = PatientUserSerializer(candidate).data
-            candidate_json['consultation'] = h['_id']
+            candidate_json['consultation'] = consultation.id
+            canditate_json['start_date'] = consultation.start_date.isoformat()
+            candidate_json['doctor'] = consutation.doctor.name
+            candidate_json['specialty'] = consutation.doctor.specialty.name
             candidates.append(candidate_json)
     return JsonResponse(candidates, safe=False, status=status.HTTP_200_OK)
 
