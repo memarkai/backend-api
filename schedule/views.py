@@ -125,7 +125,7 @@ def list_clinic_candidates(request, clinic_id):
             candidate_json = PatientUserSerializer(candidate).data
             candidate_json['consultation'] = h['_id']
             candidates.append(candidate_json)
-    return JsonResponse(hits, safe=False, status=status.HTTP_200_OK)
+    return JsonResponse(candidates, safe=False, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
