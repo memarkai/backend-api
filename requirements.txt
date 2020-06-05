@@ -1,5 +1,5 @@
 astroid==2.2.5
-Django==2.2
+Django==2.2.13
 django-cors-headers==3.0.2
 djangorestframework==3.9.2
 elasticsearch==7.0.1
