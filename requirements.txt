@@ -1,7 +1,7 @@
 astroid==2.2.5
 Django==2.2
 django-cors-headers==3.0.2
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 elasticsearch==7.0.1
 elasticsearch-dsl==7.0.0
 envdir==1.0.1
